@@ -82,16 +82,19 @@ void UBPC_BuildingManager::StartBuilding()
 	FRotator rot;
 	GetBuildingPosAndRot(loc, rot);
 	UWorld* world = GetWorld();
-	CurrentBuilding = world->SpawnActorDeferred<ABuilding_Floor>(Buildings[SelectedBuildingIndex], FTransform(rot, loc, FVector(1, 1, 1)));
-	if (!CurrentBuilding)
+	if (Buildings[SelectedBuildingIndex] == ABuilding_Floor::StaticClass())
+	{
+		CurrentBuilding = world->SpawnActorDeferred<ABuilding_Floor>(Buildings[SelectedBuildingIndex], FTransform(rot, loc, FVector(1, 1, 1)));
+	}
+	if (Buildings[SelectedBuildingIndex] == ABuilding_Roof::StaticClass())
 	{
 		CurrentBuilding = world->SpawnActorDeferred<ABuilding_Roof>(Buildings[SelectedBuildingIndex], FTransform(rot, loc, FVector(1, 1, 1)));
 	}
-	if (!CurrentBuilding)
+	if (Buildings[SelectedBuildingIndex] == ABuilding_Stairs::StaticClass())
 	{
 		CurrentBuilding = world->SpawnActorDeferred<ABuilding_Stairs>(Buildings[SelectedBuildingIndex], FTransform(rot, loc, FVector(1, 1, 1)));
 	}
-	if (!CurrentBuilding)
+	if (Buildings[SelectedBuildingIndex] == ABuilding_Wall::StaticClass())
 	{
 		CurrentBuilding = world->SpawnActorDeferred<ABuilding_Wall>(Buildings[SelectedBuildingIndex], FTransform(rot, loc, FVector(1, 1, 1)));
 	}

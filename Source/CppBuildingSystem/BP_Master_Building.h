@@ -28,6 +28,9 @@ public:
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, meta = (ExposeOnSpawn = "true"))
 	TSubclassOf<class ABP_Master_Resource> Resource;
 
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	TMap<TSubclassOf<ABP_Master_Resource>, FCpp_BuildingResourceVersion> ResourceVersions;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

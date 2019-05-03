@@ -2,6 +2,9 @@
 
 #include "BP_Master_Building.h"
 #include "ConstructorHelpers.h"
+#include "Resource_Metal.h"
+#include "Resource_Wood.h"
+#include "Resource_Stone.h"
 
 // Sets default values
 ABP_Master_Building::ABP_Master_Building()
@@ -23,7 +26,10 @@ ABP_Master_Building::ABP_Master_Building()
 		BuildingMesh->SetMaterial(0, BuildingMaterial);
 		BuildingMesh->SetCollisionProfileName(FName(TEXT("OverlapAllDynamic")));
 	}
-	
+	FCpp_BuildingResourceVersion BRV;
+	ResourceVersions.Add(AResource_Wood::StaticClass(), BRV);
+	ResourceVersions.Add(AResource_Stone::StaticClass(), BRV);
+	ResourceVersions.Add(AResource_Metal::StaticClass(), BRV);
 }
 
 // Called when the game starts or when spawned

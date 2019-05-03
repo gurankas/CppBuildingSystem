@@ -55,8 +55,11 @@ struct FCpp_ResourceData
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Struct")
 	UTexture2D* Icon;
 
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Struct")
-	//FLinearColor GhostBuildingColour;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Struct")
+	FLinearColor GhostBuildingColour;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Struct")
+	UMaterialInterface* BuildingMaterial;
 };
 
 USTRUCT(BlueprintType)
@@ -72,6 +75,21 @@ struct FCpp_BuildingData
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Struct")
 	UTexture2D* Icon;
+};
+
+USTRUCT(BlueprintType)
+struct FCpp_BuildingResourceVersion
+{
+	GENERATED_BODY()
+
+		UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Struct")
+		int32 AmountRequired = 10;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Struct")
+		float BuildingTime = 2.f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Struct")
+		int32 MaximumHealth = 200;
 };
 
 /**
