@@ -7,7 +7,7 @@
 ABuilding_Stairs::ABuilding_Stairs()
 {
 	BuildingData.Name = FText::FromString(TEXT("Stairs"));
-	BuildingData.HotKey = FKey("F8");
+	BuildingData.HotKey = FKey("Eight");
 	static ConstructorHelpers::FObjectFinder<UTexture2D>CHIcon(TEXT("/Game/BuildingSystem/Textures/Buildings/Icon_Stairs"));
 	if (CHIcon.Succeeded())
 	{

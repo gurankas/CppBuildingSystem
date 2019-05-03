@@ -16,6 +16,8 @@ class CPPBUILDINGSYSTEM_API AShinbiBase : public ACharacter
 public:
 	// Sets default values for this character's properties
 	AShinbiBase();
+
+	//key binding functions
 	void AddShield();
 	void DeductShield();
 	void AddHealth();
@@ -25,6 +27,7 @@ public:
 	void ChangeToMetal();
 	void SelectNextResource();
 	void ChangeStateBinding();
+	void OnStartBuildingKeyPressed(FKey key);
 
 	//Images in project
 	UTexture2D* CrossHairCombat;

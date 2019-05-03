@@ -6,7 +6,7 @@
 ABuilding_Roof::ABuilding_Roof()
 {
 	BuildingData.Name = FText::FromString(TEXT("Roof"));
-	BuildingData.HotKey = FKey("F9");
+	BuildingData.HotKey = FKey("Nine");
 	static ConstructorHelpers::FObjectFinder<UTexture2D>CHIcon(TEXT("/Game/BuildingSystem/Textures/Buildings/Icon_Floor"));
 	if (CHIcon.Succeeded())
 	{

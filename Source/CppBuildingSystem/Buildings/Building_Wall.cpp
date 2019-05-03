@@ -5,7 +5,7 @@
 ABuilding_Wall::ABuilding_Wall()
 {
 	BuildingData.Name = FText::FromString(TEXT("Wall"));
-	BuildingData.HotKey = FKey("F7");
+	BuildingData.HotKey = FKey("Seven");
 	static ConstructorHelpers::FObjectFinder<UTexture2D>CHIcon(TEXT("/Game/BuildingSystem/Textures/Buildings/Icon_Wall"));
 	if (CHIcon.Succeeded())
 	{

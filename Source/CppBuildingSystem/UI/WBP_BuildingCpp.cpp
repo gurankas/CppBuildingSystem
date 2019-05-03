@@ -25,6 +25,7 @@ void UWBP_BuildingCpp::CustomInitialize(TSubclassOf<ABP_Master_Building> resourc
 {
 	HotkeyText->SetText(resourceSupllied.GetDefaultObject()->BuildingData.HotKey.GetDisplayName());
 	Icon->SetBrushFromTexture(resourceSupllied.GetDefaultObject()->BuildingData.Icon);
+	Building = resourceSupllied;
 	SelectBuilding(false);
 	SetVisibility(ESlateVisibility::SelfHitTestInvisible);
 }

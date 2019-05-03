@@ -7,6 +7,7 @@
 #include "Resource_Stone.h"
 #include "Resource_Wood.h"
 #include "BPC_BuildingManager.h"
+#include "BP_Master_Building.h"
 
 // Sets default values
 AShinbiBase::AShinbiBase()
@@ -56,6 +57,7 @@ void AShinbiBase::UpdateStateDisplay()
 		MainUIReference->StateIcon->SetBrushFromTexture(Icon_Construction,true);
 		MainUIReference->BuildingBox->SetRenderOpacity(1.f);
 		MainUIReference->BuildingBox->SetRenderScale(FVector2D(1.f, 1.f));
+		BuildingManagerComponent->SelectCurrentBuilding(true);
 		MainUIReference->UpdateCurrentResource(PlayerResourcesComponent);
 		MainUIReference->ShowCurrentResource(true);
 		break;
@@ -64,6 +66,7 @@ void AShinbiBase::UpdateStateDisplay()
 		MainUIReference->StateIcon->SetBrushFromTexture(Icon_Combat,true);
 		MainUIReference->BuildingBox->SetRenderOpacity(0.8f);
 		MainUIReference->BuildingBox->SetRenderScale(FVector2D(0.8f, 0.8f));
+		BuildingManagerComponent->OnStopBuilding();
 		MainUIReference->ShowCurrentResource(false);
 		break;
 	default:
@@ -116,6 +119,7 @@ void AShinbiBase::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 	PlayerInputComponent->BindAction("AddMetal", IE_Pressed, this, &AShinbiBase::ChangeToMetal);
 	PlayerInputComponent->BindAction("SelectNextResource", IE_Pressed, this, &AShinbiBase::SelectNextResource);
 	PlayerInputComponent->BindAction("ChangeState", IE_Pressed, this, &AShinbiBase::ChangeStateBinding);
+	PlayerInputComponent->BindAction("StartBuilding", IE_Pressed, this, &AShinbiBase::OnStartBuildingKeyPressed);
 }
 
 void AShinbiBase::AddShield()
@@ -167,7 +171,7 @@ void AShinbiBase::SelectNextResource()
 		break;
 	}
 }
-
+//executed when Q is pressed
 void AShinbiBase::ChangeStateBinding()
 {
 	switch (State)
@@ -181,4 +185,19 @@ void AShinbiBase::ChangeStateBinding()
 	default:
 		break;
 	}
+}
+
+void AShinbiBase::OnStartBuildingKeyPressed(FKey key)
+{
+	int32 length = BuildingManagerComponent->Buildings.Num();
+	for (int32 i = 0; i < length; i++)
+	{
+		if (BuildingManagerComponent->Buildings[i].GetDefaultObject()->BuildingData.HotKey == key)
+		{
+			BuildingManagerComponent->SelectBuildingByIndex(i);
+			break;
+		}
+		
+	}
+	
 }
