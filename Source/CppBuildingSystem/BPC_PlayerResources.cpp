@@ -5,6 +5,7 @@
 #include "Resource_Metal.h"
 #include "Resource_Stone.h"
 #include "Resource_Wood.h"
+#include "BPC_BuildingManager.h"
 
 UBPC_PlayerResources::UBPC_PlayerResources()
 {
@@ -54,6 +55,7 @@ void UBPC_PlayerResources::SelectCurrentResource()
 
 void UBPC_PlayerResources::OnResourceSwitched()
 {
+	PlayerReference->BuildingManagerComponent->OnResourceChanged();
 }
 
 void UBPC_PlayerResources::SelectNextResource()
@@ -107,6 +109,7 @@ void UBPC_PlayerResources::UpdateResourceDisplay(TSubclassOf<ABP_Master_Resource
 				if (GetSelectedResource() == Resource && PlayerReference->State == ECpp_PlayerStates::Construction)
 				{
 					PlayerReference->MainUIReference->UpdateCurrentResource(this);
+					PlayerReference->BuildingManagerComponent->OnResourceValueModified(Resource);
 				}
 			}
 		}

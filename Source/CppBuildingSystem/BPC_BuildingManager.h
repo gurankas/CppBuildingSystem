@@ -45,7 +45,7 @@ public:
 		int32 ForwardBuildingOffset = 350;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, category = "Building Grid")
-		FVector LocationOffset = FVector(0,0,140);
+		FVector LocationOffset = FVector(0,0,160);
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, category = "Building Grid")
 		int32 RotationOffset = 90;
@@ -101,6 +101,15 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void BuildingTick();
+
+	UFUNCTION(BlueprintPure)
+	void CanBuildBuilding(bool & out, TSubclassOf<ABP_Master_Resource> & InResource, int32 & Integer);
+
+	UFUNCTION(BlueprintCallable)
+	void OnResourceChanged();
+
+	UFUNCTION(BlueprintCallable)
+	void OnResourceValueModified(TSubclassOf<ABP_Master_Resource> InResource);
 
 
 private:

@@ -5,6 +5,8 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "StructsAndEnums.h"
+#include "WidgetComponent.h"
+#include "UI/WBP_BuildWidgetCpp.h"
 #include "BP_Master_Building.generated.h"
 
 UCLASS()
@@ -15,6 +17,9 @@ class CPPBUILDINGSYSTEM_API ABP_Master_Building : public AActor
 public:	
 	// Sets default values for this actor's properties
 	ABP_Master_Building();
+
+	UPROPERTY()
+	UWBP_BuildWidgetCpp* WBPBuildWidget;
 
 	UPROPERTY()
 	UMaterialInterface* BuildingMaterial;
@@ -30,6 +35,21 @@ public:
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	TMap<TSubclassOf<ABP_Master_Resource>, FCpp_BuildingResourceVersion> ResourceVersions;
+
+	UPROPERTY(BlueprintReadWrite, VisibleAnywhere)
+	UWidgetComponent* BuildingWidget;
+
+	UPROPERTY(BlueprintReadWrite, VisibleAnywhere)
+	bool CanBeBuilt;
+
+	UFUNCTION(BlueprintCallable)
+	void UpdateGhostMaterial();
+
+	UFUNCTION(BlueprintCallable)
+	void ChangeResource(TSubclassOf<ABP_Master_Resource> NewResource);
+
+	UFUNCTION(BlueprintCallable)
+	void SetCanBeBuilt(bool newValue);
 
 protected:
 	// Called when the game starts or when spawned

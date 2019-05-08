@@ -101,6 +101,14 @@ void UBPC_BuildingManager::StartBuilding()
 	//GetWorld()->SpawnActorDeferred(Buildings[SelectedBuildingIndex], FTransform(rot,loc,FVector(1,1,1)));
 	CurrentBuilding->Resource = PlayerReference->PlayerResourcesComponent->GetSelectedResource();
 	UGameplayStatics::FinishSpawningActor(CurrentBuilding, FTransform(rot, loc, FVector(1, 1, 1)));
+
+	//initialize CanBuildBuilding constructor vars
+	bool result;
+	TSubclassOf<ABP_Master_Resource> ClassVar;
+	int32 value;
+	CanBuildBuilding(result, ClassVar, value);
+	CurrentBuilding->SetCanBeBuilt(result);
+
 	world->GetTimerManager().SetTimer(BuildingTimerHandle, this, &UBPC_BuildingManager::BuildingTick, .03f, true);
 }
 
@@ -204,6 +212,59 @@ void UBPC_BuildingManager::BuildingTick()
 	GetBuildingPosAndRot(loc, rot);
 	CurrentBuilding->SetActorLocationAndRotation(loc, rot);
 	//UE_LOG(LogTemp, Warning, TEXT("Bhukh lag rahi hai"));
+}
+
+void UBPC_BuildingManager::CanBuildBuilding(bool & out, TSubclassOf<ABP_Master_Resource>& InResource, int32 & Integer)
+{
+	if (CurrentBuilding)
+	{
+		 int32 PlayerResource = PlayerReference->PlayerResourcesComponent->GetResource(PlayerReference->PlayerResourcesComponent->GetSelectedResource());
+		 int32 ResourcesNeeded = CurrentBuilding->ResourceVersions.Find(PlayerReference->PlayerResourcesComponent->GetSelectedResource())->AmountRequired;
+		 out = PlayerResource > ResourcesNeeded;
+		 InResource = PlayerReference->PlayerResourcesComponent->GetSelectedResource();
+		 Integer = CurrentBuilding->ResourceVersions.Find(PlayerReference->PlayerResourcesComponent->GetSelectedResource())->AmountRequired;
+	}
+	else
+	{
+		out = false;
+		InResource = nullptr;
+		Integer = 0;
+	}
+}
+
+void UBPC_BuildingManager::OnResourceChanged()
+{
+	if (CurrentlyBuilding && IsInitializedOrNot)
+	{
+		if (CurrentBuilding)
+		{
+			CurrentBuilding->ChangeResource(PlayerReference->PlayerResourcesComponent->GetSelectedResource());
+
+			//initialize CanBuildBuilding constructor vars
+			bool result;
+			TSubclassOf<ABP_Master_Resource> ClassVar;
+			int32 value;
+			CanBuildBuilding(result, ClassVar, value);
+			CurrentBuilding->SetCanBeBuilt(result);
+		}
+	}
+}
+
+void UBPC_BuildingManager::OnResourceValueModified(TSubclassOf<ABP_Master_Resource> InResource)
+{
+	if (PlayerReference->PlayerResourcesComponent->GetSelectedResource() == InResource &&
+		CurrentlyBuilding && IsInitializedOrNot && InResource)
+	{
+		if (CurrentBuilding)
+		{
+			//initialize CanBuildBuilding constructor vars
+			bool result;
+			TSubclassOf<ABP_Master_Resource> ClassVar;
+			int32 value;
+			CanBuildBuilding(result, ClassVar, value);
+			CurrentBuilding->SetCanBeBuilt(result);
+		}
+	}
 }
 
 // Called when the game starts
