@@ -7,6 +7,8 @@
 #include "StructsAndEnums.h"
 #include "WidgetComponent.h"
 #include "UI/WBP_BuildWidgetCpp.h"
+#include "UI/WBP_BuildingHealthBarCpp.h"
+#include "BPC_BuildingStats.h"
 #include "BP_Master_Building.generated.h"
 
 UCLASS()
@@ -20,6 +22,9 @@ public:
 
 	UPROPERTY()
 	UWBP_BuildWidgetCpp* WBPBuildWidget;
+
+	UPROPERTY()
+	UBPC_BuildingStats* WBPHealthWidget;
 
 	UPROPERTY()
 	UMaterialInterface* BuildingMaterial;
@@ -41,6 +46,18 @@ public:
 
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere)
 	bool CanBeBuilt;
+
+	UPROPERTY(BlueprintReadWrite, VisibleAnywhere)
+	UWidgetComponent* HealthBarWidget;
+
+	UPROPERTY(BlueprintReadWrite, VisibleAnywhere)
+	UBPC_BuildingStats* BuildingStatsComponent;
+
+	UPROPERTY(BlueprintReadWrite, VisibleAnywhere)
+	bool bBuilt;
+
+	UPROPERTY(BlueprintReadWrite, VisibleAnywhere)
+	bool bInPlayerSight = true;
 
 	UFUNCTION(BlueprintCallable)
 	void UpdateGhostMaterial();

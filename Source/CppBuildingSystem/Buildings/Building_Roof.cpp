@@ -22,6 +22,7 @@ ABuilding_Roof::ABuilding_Roof()
 		BuildingMesh->SetStaticMesh(actualMesh);
 	}
 	BuildingWidget->SetRelativeLocation(FVector( 200, 200,0));
+	WBPHealthBar->SetRelativeLocation(FVector(200, 200, 0));
 	FCpp_BuildingResourceVersion* metal = ResourceVersions.Find(AResource_Metal::StaticClass());
 	FCpp_BuildingResourceVersion* wood = ResourceVersions.Find(AResource_Wood::StaticClass());
 	FCpp_BuildingResourceVersion* stone = ResourceVersions.Find(AResource_Stone::StaticClass());

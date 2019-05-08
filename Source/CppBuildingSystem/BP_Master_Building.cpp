@@ -40,11 +40,25 @@ ABP_Master_Building::ABP_Master_Building()
 	BuildingWidget->SetWidgetClass(bp.Class);
 	BuildingWidget->SetDrawSize(FVector2D(380, 140));
 	BuildingWidget->SetVisibility(false);
+
+	static ConstructorHelpers::FClassFinder<UUserWidget> healthbp(TEXT("/Game/BuildingSystem/UI/WBP_Bu"));
 	
+	HealthBarWidget = CreateDefaultSubobject<UWidgetComponent>(TEXT("HealthBar"));
+	HealthBarWidget->SetWidgetSpace(EWidgetSpace::Screen);
+	HealthBarWidget->SetWidgetClass(healthbp.Class);
+	HealthBarWidget->SetDrawSize(FVector2D(360, 32));
+	HealthBarWidget->SetVisibility(false);
+
 	//set up hierarchy
 	SetRootComponent(BuildingMesh);
 	BuildingWidget->SetupAttachment(GetRootComponent());
 	BuildingWidget->SetRelativeLocation(FVector(0,0,0));
+
+	HealthBarWidget->SetupAttachment(GetRootComponent());
+	HealthBarWidget->SetRelativeLocation(FVector(0, 0, 0));
+
+
+	BuildingStatsComponent = CreateDefaultSubobject<UBPC_BuildingStats>(TEXT("BuildingStatsComponent"));
 
 
 }
@@ -80,7 +94,9 @@ void ABP_Master_Building::BeginPlay()
 		DynamicBuildingMaterial = BuildingMesh->CreateDynamicMaterialInstance(0, BuildingMaterial);
 		UpdateGhostMaterial();
 		WBPBuildWidget = Cast<UWBP_BuildWidgetCpp>(BuildingWidget->GetUserWidgetObject());
+		WBPHealthWidget = Cast<UBPC_BuildingStats>(HealthBarWidget->GetUserWidgetObject());
 		WBPBuildWidget->Update(*ResourceVersions.Find(Resource), Resource);
+		BuildingStatsComponent->InitializeManager(this);
 		BuildingWidget->SetVisibility(true);
 	}
 }
