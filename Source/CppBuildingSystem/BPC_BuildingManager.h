@@ -111,6 +111,8 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void OnResourceValueModified(TSubclassOf<ABP_Master_Resource> InResource);
 
+	UFUNCTION(BlueprintCallable)
+	void PlaceCurrentBuilding();
 
 private:
 	UPROPERTY(EditAnywhere)

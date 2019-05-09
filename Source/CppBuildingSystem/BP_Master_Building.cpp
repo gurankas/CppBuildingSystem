@@ -88,8 +88,10 @@ void ABP_Master_Building::OnBuild(TSubclassOf<ABP_Master_Resource> ResourceSuppl
 }
 void ABP_Master_Building::BuildingTick()
 {
-	
-	BuildingStatsComponent->ModifyStat(ECpp_Stats::Health, UKismetMathLibrary::FCeil((float)BuildingStatsComponent->GetMaxHealth() / (float)(UKismetMathLibrary::FFloor(BuildingTime / interval))));
+	local1 = UKismetMathLibrary::FFloor((BuildingTime / interval));
+	local2 = (float)(BuildingStatsComponent->GetMaxHealth());
+	modifyValue = UKismetMathLibrary::FCeil(local2 / local1);
+ 	BuildingStatsComponent->ModifyStat(ECpp_Stats::Health, modifyValue);
 	int32 currentValue;
 	FCpp_StatValue statValue;
 	BuildingStatsComponent->GetStat(ECpp_Stats::Health, currentValue, statValue);

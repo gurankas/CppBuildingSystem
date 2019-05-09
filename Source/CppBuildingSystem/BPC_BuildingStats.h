@@ -28,4 +28,7 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void InitializeManager(class ABP_Master_Building* BuildingSupplied);
+
+	UFUNCTION(BlueprintCallable)
+	void UpdateStat(ECpp_Stats stat) override;
 };

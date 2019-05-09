@@ -211,7 +211,6 @@ void UBPC_BuildingManager::BuildingTick()
 	FRotator rot;
 	GetBuildingPosAndRot(loc, rot);
 	CurrentBuilding->SetActorLocationAndRotation(loc, rot);
-	//UE_LOG(LogTemp, Warning, TEXT("Bhukh lag rahi hai"));
 }
 
 void UBPC_BuildingManager::CanBuildBuilding(bool & out, TSubclassOf<ABP_Master_Resource>& InResource, int32 & Integer)
@@ -263,6 +262,24 @@ void UBPC_BuildingManager::OnResourceValueModified(TSubclassOf<ABP_Master_Resour
 			int32 value;
 			CanBuildBuilding(result, ClassVar, value);
 			CurrentBuilding->SetCanBeBuilt(result);
+		}
+	}
+}
+
+void UBPC_BuildingManager::PlaceCurrentBuilding()
+{
+	if (CurrentBuilding)
+	{
+		bool canBuildOrNot;
+		TSubclassOf<ABP_Master_Resource> resourceUsed;
+		int32 ResourcesToBeUsed;
+		CanBuildBuilding(canBuildOrNot, resourceUsed, ResourcesToBeUsed);
+		if (canBuildOrNot)
+		{
+			PlayerReference->PlayerResourcesComponent->RemoveResource(resourceUsed, ResourcesToBeUsed);
+			GetWorld()->GetTimerManager().ClearTimer(BuildingTimerHandle); 
+			CurrentBuilding->OnBuild(resourceUsed);
+			StartBuilding();
 		}
 	}
 }

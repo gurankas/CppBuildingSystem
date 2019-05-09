@@ -9,7 +9,7 @@
 void UWBP_BuildingHealthBarCpp::UpdateHealth(int32 NewValue)
 {
 	CurrentHealth = UBPC_Master_StatManager::clampInt(0, MaxHealth, NewValue);
-	HealthBar->SetPercent((float)(CurrentHealth / MaxHealth));
+	HealthBar->SetPercent((float)(CurrentHealth /(float) MaxHealth));
 	HealthText->SetText(FText::FormatNamed(LOCTEXT("HealthText", "{Current} | {Max}"), TEXT("Current"), FText::AsNumber(CurrentHealth), TEXT("Max"), FText::AsNumber(MaxHealth)));
 }
 

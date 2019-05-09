@@ -35,13 +35,13 @@ struct FCpp_StatValue
 	GENERATED_BODY()
 
 		UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Struct")
-		int32 MinValue;
+		int32 MinValue = 0;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Struct")
-		int32 CurrentValue;
+		int32 CurrentValue = 50;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Struct")
-		int32 MaxValue;
+		int32 MaxValue = 100;
 };
 
 USTRUCT(BlueprintType)

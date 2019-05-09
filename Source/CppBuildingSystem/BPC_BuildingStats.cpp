@@ -47,3 +47,14 @@ void UBPC_BuildingStats::InitializeManager(ABP_Master_Building* BuildingSupplied
 		SetUpStats();
 	}
 }
+
+void UBPC_BuildingStats::UpdateStat(ECpp_Stats stat)
+{
+	if (stat == ECpp_Stats::Health && Building->bInPlayerSight)
+	{
+		int32 currentValue;
+		FCpp_StatValue statValue;
+		GetStat(ECpp_Stats::Health, currentValue, statValue);
+		Building->WBPHealthWidget->UpdateHealth(currentValue);
+	}
+}

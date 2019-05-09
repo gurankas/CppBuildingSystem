@@ -28,6 +28,7 @@ public:
 	void SelectNextResource();
 	void ChangeStateBinding();
 	void OnStartBuildingKeyPressed(FKey key);
+	void OnPlaceBuilding();
 
 	//Images in project
 	UTexture2D* CrossHairCombat;

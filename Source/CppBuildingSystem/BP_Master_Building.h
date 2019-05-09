@@ -20,6 +20,10 @@ public:
 	// Sets default values for this actor's properties
 	ABP_Master_Building();
 
+	int32 modifyValue;
+	float local2;
+	float local1;
+
 	UPROPERTY()
 	UWBP_BuildWidgetCpp* WBPBuildWidget;
 

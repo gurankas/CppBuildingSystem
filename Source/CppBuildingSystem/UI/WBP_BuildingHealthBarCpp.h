@@ -31,7 +31,7 @@ public:
 		int32 CurrentHealth;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
-		int32 MaxHealth;
+		int32 MaxHealth =1;
 
 	//functions
 	UFUNCTION(BlueprintCallable)

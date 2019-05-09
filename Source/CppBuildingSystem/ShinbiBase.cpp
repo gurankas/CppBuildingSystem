@@ -120,6 +120,7 @@ void AShinbiBase::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 	PlayerInputComponent->BindAction("SelectNextResource", IE_Pressed, this, &AShinbiBase::SelectNextResource);
 	PlayerInputComponent->BindAction("ChangeState", IE_Pressed, this, &AShinbiBase::ChangeStateBinding);
 	PlayerInputComponent->BindAction("StartBuilding", IE_Pressed, this, &AShinbiBase::OnStartBuildingKeyPressed);
+	PlayerInputComponent->BindAction("PlaceBuilding", IE_Pressed, this, &AShinbiBase::OnPlaceBuilding);
 }
 
 void AShinbiBase::AddShield()
@@ -200,4 +201,18 @@ void AShinbiBase::OnStartBuildingKeyPressed(FKey key)
 		
 	}
 	
+}
+
+void AShinbiBase::OnPlaceBuilding()
+{
+	switch (State)
+	{
+	case ECpp_PlayerStates::Construction:
+		BuildingManagerComponent->PlaceCurrentBuilding();
+		break;
+	case ECpp_PlayerStates::Combat:
+		break;
+	default:
+		break;
+	}
 }
