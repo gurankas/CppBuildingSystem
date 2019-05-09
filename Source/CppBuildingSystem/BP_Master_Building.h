@@ -60,7 +60,16 @@ public:
 	bool bInPlayerSight = true;
 
 	UPROPERTY()
-		float BuildingTime = 0f;
+	float BuildingTime = 0.f;
+
+	UPROPERTY()
+	float interval;
+
+	UPROPERTY()
+	FTimerHandle BuildingTimerHandle;
+
+	UPROPERTY()
+		FTimerHandle PostBuildingTimerHandle;
 
 	UFUNCTION(BlueprintCallable)
 	void UpdateGhostMaterial();
@@ -73,6 +82,13 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void OnBuild(TSubclassOf<ABP_Master_Resource> ResourceSupplied);
+
+	UFUNCTION(BlueprintCallable)
+	void BuildingTick();
+
+	UFUNCTION(BlueprintCallable)
+	void OnBuildingEnd();
+
 
 protected:
 	// Called when the game starts or when spawned

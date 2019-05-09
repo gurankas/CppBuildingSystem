@@ -5,7 +5,7 @@
 #include "Resource_Metal.h"
 #include "Resource_Wood.h"
 #include "Resource_Stone.h"
-
+#include "Kismet/KismetMathLibrary.h"
 
 // Sets default values
 ABP_Master_Building::ABP_Master_Building()
@@ -41,7 +41,7 @@ ABP_Master_Building::ABP_Master_Building()
 	BuildingWidget->SetDrawSize(FVector2D(380, 140));
 	BuildingWidget->SetVisibility(false);
 
-	static ConstructorHelpers::FClassFinder<UUserWidget> healthbp(TEXT("/Game/BuildingSystem/UI/WBP_Bu"));
+	static ConstructorHelpers::FClassFinder<UUserWidget> healthbp(TEXT("/Game/BuildingSystem/UI/WBP_BuildingHealthBar"));
 	
 	HealthBarWidget = CreateDefaultSubobject<UWidgetComponent>(TEXT("HealthBar"));
 	HealthBarWidget->SetWidgetSpace(EWidgetSpace::Screen);
@@ -81,6 +81,21 @@ void ABP_Master_Building::OnBuild(TSubclassOf<ABP_Master_Resource> ResourceSuppl
 		BuildingTime = ResourceVersions.Find(Resource)->BuildingTime;
 		WBPHealthWidget->InitializeBar(BuildingStatsComponent->GetMaxHealth());
 		HealthBarWidget->SetVisibility(true);
+		interval = 0.25f;
+		GetWorld()->GetTimerManager().SetTimer(BuildingTimerHandle, this, &ABP_Master_Building::BuildingTick, interval, true);
+		GetWorld()->GetTimerManager().SetTimer(PostBuildingTimerHandle, this, &ABP_Master_Building::OnBuildingEnd, BuildingTime+interval, false);
+	}
+}
+void ABP_Master_Building::BuildingTick()
+{
+	
+	BuildingStatsComponent->ModifyStat(ECpp_Stats::Health, UKismetMathLibrary::FCeil((float)BuildingStatsComponent->GetMaxHealth() / (float)(UKismetMathLibrary::FFloor(BuildingTime / interval))));
+	int32 currentValue;
+	FCpp_StatValue statValue;
+	BuildingStatsComponent->GetStat(ECpp_Stats::Health, currentValue, statValue);
+	if (currentValue == BuildingStatsComponent->GetMaxHealth())
+	{
+		OnBuildingEnd();
 	}
 }
 void ABP_Master_Building::ChangeResource(TSubclassOf<ABP_Master_Resource> NewResource)
@@ -97,6 +112,15 @@ void ABP_Master_Building::SetCanBeBuilt(bool newValue)
 {
 	CanBeBuilt = newValue;
 	WBPBuildWidget->SetCanBeBuilt(CanBeBuilt);
+}
+
+void ABP_Master_Building::OnBuildingEnd()
+{
+	if (BuildingTimerHandle.IsValid())
+	{
+		GetWorld()->GetTimerManager().ClearTimer(BuildingTimerHandle);
+		WBPHealthWidget->SetState(ECpp_BuildingData::Built);
+	}
 }
 
 // Called when the game starts or when spawned
