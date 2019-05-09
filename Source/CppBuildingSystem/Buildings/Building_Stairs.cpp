@@ -24,7 +24,7 @@ ABuilding_Stairs::ABuilding_Stairs()
 	}
 	BuildingMesh->SetRelativeRotation(FRotator(0, -90, 0));
 	BuildingWidget->SetRelativeLocation(FVector(0, 200, 200));
-	WBPHealthBar->SetRelativeLocation(FVector(0, 200, 200));
+	HealthBarWidget->SetRelativeLocation(FVector(0, 200, 200));
 	FCpp_BuildingResourceVersion* metal = ResourceVersions.Find(AResource_Metal::StaticClass());
 	FCpp_BuildingResourceVersion* wood = ResourceVersions.Find(AResource_Wood::StaticClass());
 	FCpp_BuildingResourceVersion* stone = ResourceVersions.Find(AResource_Stone::StaticClass());

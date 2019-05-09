@@ -68,6 +68,21 @@ void ABP_Master_Building::UpdateGhostMaterial()
 	DynamicBuildingMaterial->SetVectorParameterValue("Colour", Resource.GetDefaultObject()->ResourceData.GhostBuildingColour);
 }
 
+void ABP_Master_Building::OnBuild(TSubclassOf<ABP_Master_Resource> ResourceSupplied)
+{
+	if (ResourceSupplied)
+	{
+		bBuilt = true;
+		BuildingMesh->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Block);
+		BuildingMesh->SetMaterial(0, Resource.GetDefaultObject()->ResourceData.BuildingMaterial);
+		BuildingWidget->DestroyComponent();
+		BuildingStatsComponent->SetMaxStatValue(ECpp_Stats::Health, ResourceVersions.Find(Resource)->MaximumHealth, false);
+		BuildingStatsComponent->SetStat(ECpp_Stats::Health, 0, false);
+		BuildingTime = ResourceVersions.Find(Resource)->BuildingTime;
+		WBPHealthWidget->InitializeBar(BuildingStatsComponent->GetMaxHealth());
+		HealthBarWidget->SetVisibility(true);
+	}
+}
 void ABP_Master_Building::ChangeResource(TSubclassOf<ABP_Master_Resource> NewResource)
 {
 	if (NewResource && Resource!= NewResource)
@@ -94,7 +109,7 @@ void ABP_Master_Building::BeginPlay()
 		DynamicBuildingMaterial = BuildingMesh->CreateDynamicMaterialInstance(0, BuildingMaterial);
 		UpdateGhostMaterial();
 		WBPBuildWidget = Cast<UWBP_BuildWidgetCpp>(BuildingWidget->GetUserWidgetObject());
-		WBPHealthWidget = Cast<UBPC_BuildingStats>(HealthBarWidget->GetUserWidgetObject());
+		WBPHealthWidget = Cast<UWBP_BuildingHealthBarCpp>(HealthBarWidget->GetUserWidgetObject());
 		WBPBuildWidget->Update(*ResourceVersions.Find(Resource), Resource);
 		BuildingStatsComponent->InitializeManager(this);
 		BuildingWidget->SetVisibility(true);

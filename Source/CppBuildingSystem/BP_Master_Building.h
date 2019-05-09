@@ -24,7 +24,7 @@ public:
 	UWBP_BuildWidgetCpp* WBPBuildWidget;
 
 	UPROPERTY()
-	UBPC_BuildingStats* WBPHealthWidget;
+	UWBP_BuildingHealthBarCpp* WBPHealthWidget;
 
 	UPROPERTY()
 	UMaterialInterface* BuildingMaterial;
@@ -59,6 +59,9 @@ public:
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere)
 	bool bInPlayerSight = true;
 
+	UPROPERTY()
+		float BuildingTime = 0f;
+
 	UFUNCTION(BlueprintCallable)
 	void UpdateGhostMaterial();
 
@@ -67,6 +70,9 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void SetCanBeBuilt(bool newValue);
+
+	UFUNCTION(BlueprintCallable)
+	void OnBuild(TSubclassOf<ABP_Master_Resource> ResourceSupplied);
 
 protected:
 	// Called when the game starts or when spawned
