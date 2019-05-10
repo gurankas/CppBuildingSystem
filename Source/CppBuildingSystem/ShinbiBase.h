@@ -53,11 +53,17 @@ public:
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	ECpp_PlayerStates State;
 
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+		ABP_Master_Building* CurrentlySeenBuilding;
+
 	UFUNCTION(BlueprintCallable)
 	void UpdateStateDisplay();
 
 	UFUNCTION(BlueprintCallable)
 	void ChangeState(ECpp_PlayerStates suppliedState);
+
+	UFUNCTION(BlueprintCallable)
+	void SightTrace();
 
 protected:
 	// Called when the game starts or when spawned

@@ -83,6 +83,40 @@ void AShinbiBase::ChangeState(ECpp_PlayerStates suppliedState)
 	}
 }
 
+void AShinbiBase::SightTrace()
+{
+	FHitResult Hit;
+	FVector Start = GetActorLocation() + BuildingManagerComponent->LocationOffset;
+	FVector End = BuildingManagerComponent->LocationOffset + BuildingManagerComponent->ToGridLocation(BuildingManagerComponent->GetPlayerLookAtRotation(BuildingManagerComponent->ForwardBuildingOffset * 3));
+	GetWorld()->LineTraceSingleByChannel(Hit, Start, End, ECollisionChannel::ECC_Visibility);
+	ABP_Master_Building* building = Cast<ABP_Master_Building>(Hit.Actor);
+	if (building)
+	{
+		if (CurrentlySeenBuilding)
+		{
+			if (CurrentlySeenBuilding != Hit.Actor)
+			{
+				CurrentlySeenBuilding->OnLeavePlayerSight();
+				CurrentlySeenBuilding = building;
+				CurrentlySeenBuilding->OnEnterPlayerSight();
+			}
+		}
+		else
+		{
+			CurrentlySeenBuilding = building;
+			CurrentlySeenBuilding->OnEnterPlayerSight();
+		}
+	}
+	else
+	{
+		if (CurrentlySeenBuilding)
+		{
+			CurrentlySeenBuilding->OnLeavePlayerSight();
+			CurrentlySeenBuilding = nullptr;
+		}
+	}
+}
+
 // Called when the game starts or when spawned
 void AShinbiBase::BeginPlay()
 {

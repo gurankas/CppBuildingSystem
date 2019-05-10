@@ -93,6 +93,11 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void OnBuildingEnd();
 
+	UFUNCTION(BlueprintCallable)
+		void OnEnterPlayerSight();
+
+	UFUNCTION(BlueprintCallable)
+		void OnLeavePlayerSight();
 
 protected:
 	// Called when the game starts or when spawned

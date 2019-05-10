@@ -125,6 +125,28 @@ void ABP_Master_Building::OnBuildingEnd()
 	}
 }
 
+void ABP_Master_Building::OnEnterPlayerSight()
+{
+	bInPlayerSight = true;
+	if (bBuilt)
+	{
+		int32 currentValue;
+		FCpp_StatValue statValue;
+		BuildingStatsComponent->GetStat(ECpp_Stats::Health, currentValue, statValue);
+		WBPHealthWidget->UpdateHealth(currentValue);
+		HealthBarWidget->SetVisibility(true);
+	}
+}
+
+void ABP_Master_Building::OnLeavePlayerSight()
+{
+	bInPlayerSight = false;
+	if (bBuilt)
+	{
+		HealthBarWidget->SetVisibility(false);
+	}
+}
+
 // Called when the game starts or when spawned
 void ABP_Master_Building::BeginPlay()
 {
