@@ -39,4 +39,7 @@ ABuilding_Stairs::ABuilding_Stairs()
 	metal->AmountRequired = 15;
 	metal->BuildingTime = 1.5f;
 	metal->MaximumHealth = 250;
+
+	Box->SetRelativeLocation(FVector(200, 200, 120));
+	Box->SetBoxExtent(FVector(90, 90, 120));
 }

@@ -49,18 +49,22 @@ ABP_Master_Building::ABP_Master_Building()
 	HealthBarWidget->SetDrawSize(FVector2D(360, 32));
 	HealthBarWidget->SetVisibility(false);
 
+	Box = CreateDefaultSubobject<UBoxComponent>(TEXT("Box"));
+	Box->SetBoxExtent(FVector(90, 90, 90));
+	Box->SetCollisionProfileName(FName(TEXT("OverlapAll")));
 	//set up hierarchy
 	SetRootComponent(BuildingMesh);
+
 	BuildingWidget->SetupAttachment(GetRootComponent());
 	BuildingWidget->SetRelativeLocation(FVector(0,0,0));
 
 	HealthBarWidget->SetupAttachment(GetRootComponent());
 	HealthBarWidget->SetRelativeLocation(FVector(0, 0, 0));
 
+	Box->SetupAttachment(GetRootComponent());
+	Box->SetRelativeLocation(FVector(0, 0, 0));
 
 	BuildingStatsComponent = CreateDefaultSubobject<UBPC_BuildingStats>(TEXT("BuildingStatsComponent"));
-
-
 }
 
 void ABP_Master_Building::UpdateGhostMaterial()
@@ -147,10 +151,71 @@ void ABP_Master_Building::OnLeavePlayerSight()
 	}
 }
 
+void ABP_Master_Building::OnBoxBeginOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+{
+	if (OtherActor != this)
+	{
+		if (Cast<UStaticMeshComponent>(OtherComp))
+		{
+			ABP_Master_Building* localBuilding = Cast<ABP_Master_Building>(OtherActor);
+			if (localBuilding)
+			{
+				if (localBuilding->bBuilt)
+				{
+					OverlappingBuildings.Add(localBuilding);
+					if (!bOverlapping)
+					{
+						OnOverlappingBegin();
+					}
+				}
+			}
+		}
+	}
+}
+
+void ABP_Master_Building::OnBoxEndOverlap(UPrimitiveComponent * OverlappedComp, AActor * OtherActor, UPrimitiveComponent * OtherComp, int32 OtherBodyIndex)
+{
+	if (OtherActor != this)
+	{
+		if (Cast<UStaticMeshComponent>(OtherComp))
+		{
+			ABP_Master_Building* localBuilding = Cast<ABP_Master_Building>(OtherActor);
+			if (localBuilding)
+			{
+				if (OverlappingBuildings.Contains(localBuilding))
+				{
+					OverlappingBuildings.Remove(localBuilding);
+					if (OverlappingBuildings.Array().Num() <= 0)
+					{
+						OnOverlappingEnd();
+					}
+				}
+			}
+		}
+	}
+}
+
+void ABP_Master_Building::OnOverlappingBegin()
+{
+	bOverlapping = true;
+	BuildingWidget->SetVisibility(false);
+	BuildingMesh->SetVisibility(false);
+}
+
+void ABP_Master_Building::OnOverlappingEnd()
+{
+	bOverlapping = false;
+	BuildingWidget->SetVisibility(true);
+	BuildingMesh->SetVisibility(true);
+}
+
 // Called when the game starts or when spawned
 void ABP_Master_Building::BeginPlay()
 {
 	Super::BeginPlay();
+
+	Box->OnComponentBeginOverlap.AddDynamic(this, &ABP_Master_Building::OnBoxBeginOverlap);
+	Box->OnComponentEndOverlap.AddDynamic(this, &ABP_Master_Building::OnBoxEndOverlap);
 
 	if (BuildingMesh)
 	{

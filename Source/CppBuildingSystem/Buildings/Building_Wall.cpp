@@ -37,4 +37,6 @@ ABuilding_Wall::ABuilding_Wall()
 	metal->AmountRequired = 20;
 	metal->BuildingTime = 3.f;
 	metal->MaximumHealth = 500;
+
+	Box->SetRelativeLocation(FVector(200, 200, 150));
 }

@@ -37,5 +37,7 @@ ABuilding_Roof::ABuilding_Roof()
 	metal->AmountRequired = 10;
 	metal->BuildingTime = 2.5f;
 	metal->MaximumHealth = 250;
+
+	Box->SetRelativeLocation(FVector(200, 200, 0));
 }
 

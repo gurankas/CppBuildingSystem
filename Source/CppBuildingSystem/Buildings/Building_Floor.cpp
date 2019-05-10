@@ -32,4 +32,6 @@ ABuilding_Floor::ABuilding_Floor()
 	metal->AmountRequired = 10;
 	metal->BuildingTime = 2.5f;
 	metal->MaximumHealth = 250;
+
+	Box->SetRelativeLocation(FVector(200, 200, 100));
 }

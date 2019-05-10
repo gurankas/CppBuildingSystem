@@ -274,7 +274,7 @@ void UBPC_BuildingManager::PlaceCurrentBuilding()
 		TSubclassOf<ABP_Master_Resource> resourceUsed;
 		int32 ResourcesToBeUsed;
 		CanBuildBuilding(canBuildOrNot, resourceUsed, ResourcesToBeUsed);
-		if (canBuildOrNot)
+		if (canBuildOrNot && !CurrentBuilding->bOverlapping)
 		{
 			if (PlayerReference->CurrentlySeenBuilding)
 			{
