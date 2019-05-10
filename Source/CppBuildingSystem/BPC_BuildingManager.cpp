@@ -276,6 +276,14 @@ void UBPC_BuildingManager::PlaceCurrentBuilding()
 		CanBuildBuilding(canBuildOrNot, resourceUsed, ResourcesToBeUsed);
 		if (canBuildOrNot)
 		{
+			if (PlayerReference->CurrentlySeenBuilding)
+			{
+				if (PlayerReference->CurrentlySeenBuilding != CurrentBuilding)
+				{
+					PlayerReference->CurrentlySeenBuilding->OnLeavePlayerSight();
+				}
+			}
+			PlayerReference->CurrentlySeenBuilding = CurrentBuilding;
 			PlayerReference->PlayerResourcesComponent->RemoveResource(resourceUsed, ResourcesToBeUsed);
 			GetWorld()->GetTimerManager().ClearTimer(BuildingTimerHandle); 
 			CurrentBuilding->OnBuild(resourceUsed);

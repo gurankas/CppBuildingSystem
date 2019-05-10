@@ -56,6 +56,12 @@ public:
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 		ABP_Master_Building* CurrentlySeenBuilding;
 
+	UPROPERTY()
+	FTimerHandle InSightTimerHandle;
+
+	UPROPERTY()
+	float SightTraceTickRate = 0.05;
+
 	UFUNCTION(BlueprintCallable)
 	void UpdateStateDisplay();
 

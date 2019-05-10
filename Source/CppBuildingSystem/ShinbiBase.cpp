@@ -130,6 +130,7 @@ void AShinbiBase::BeginPlay()
 		PlayerResourcesComponent->InitializeManager(this);
 		BuildingManagerComponent->Initialize(this);
 		MainUIReference->AddToViewport();
+		GetWorld()->GetTimerManager().SetTimer(InSightTimerHandle, this, &AShinbiBase::SightTrace, .05f, true);
 	}
 }
 
