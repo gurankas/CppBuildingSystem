@@ -117,6 +117,14 @@ void AShinbiBase::SightTrace()
 	}
 }
 
+void AShinbiBase::OnAttackedCommenced()
+{
+}
+
+void AShinbiBase::OnAttackedFinished()
+{
+}
+
 // Called when the game starts or when spawned
 void AShinbiBase::BeginPlay()
 {
@@ -156,6 +164,7 @@ void AShinbiBase::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 	PlayerInputComponent->BindAction("ChangeState", IE_Pressed, this, &AShinbiBase::ChangeStateBinding);
 	PlayerInputComponent->BindAction("StartBuilding", IE_Pressed, this, &AShinbiBase::OnStartBuildingKeyPressed);
 	PlayerInputComponent->BindAction("PlaceBuilding", IE_Pressed, this, &AShinbiBase::OnPlaceBuilding);
+	PlayerInputComponent->BindAction("PlaceBuilding", IE_Released, this, &AShinbiBase::OnReleaseBuilding);
 }
 
 void AShinbiBase::AddShield()
@@ -240,14 +249,26 @@ void AShinbiBase::OnStartBuildingKeyPressed(FKey key)
 
 void AShinbiBase::OnPlaceBuilding()
 {
+	UAnimMontage* CurrentMontage;
 	switch (State)
 	{
 	case ECpp_PlayerStates::Construction:
 		BuildingManagerComponent->PlaceCurrentBuilding();
 		break;
 	case ECpp_PlayerStates::Combat:
+		bLMB_down = true;
+		CurrentMontage = GetCurrentMontage();
+		if (!CurrentMontage)
+		{
+			PlayAnimMontage(AttackMontage);
+		}
 		break;
 	default:
 		break;
 	}
+}
+
+void AShinbiBase::OnReleaseBuilding()
+{
+	bLMB_down = false;
 }

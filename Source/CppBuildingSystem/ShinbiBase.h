@@ -29,6 +29,7 @@ public:
 	void ChangeStateBinding();
 	void OnStartBuildingKeyPressed(FKey key);
 	void OnPlaceBuilding();
+	void OnReleaseBuilding();
 
 	//Images in project
 	UTexture2D* CrossHairCombat;
@@ -62,6 +63,12 @@ public:
 	UPROPERTY()
 	float SightTraceTickRate = 0.05;
 
+	UPROPERTY()
+		bool bLMB_down;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		UAnimMontage* AttackMontage;
+
 	UFUNCTION(BlueprintCallable)
 	void UpdateStateDisplay();
 
@@ -70,6 +77,12 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void SightTrace();
+
+	UFUNCTION(BlueprintCallable)
+		void OnAttackedCommenced();
+
+	UFUNCTION(BlueprintCallable)
+		void OnAttackedFinished();
 
 protected:
 	// Called when the game starts or when spawned
