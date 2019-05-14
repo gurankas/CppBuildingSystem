@@ -16,13 +16,13 @@ ABuilding_Stairs::ABuilding_Stairs()
 	{
 		BuildingData.Icon = CHIcon.Object;
 	}
-	static ConstructorHelpers::FObjectFinder<UStaticMesh> CHMesh(TEXT("/Game/BuildingSystem/Meshes/Stairs_Metal_v2"));
+	static ConstructorHelpers::FObjectFinder<UStaticMesh> CHMesh(TEXT("/Game/BuildingSystem/Meshes/Stairs_Metal_v4"));
 	if (CHMesh.Succeeded())
 	{
 		UStaticMesh* actualMesh = CHMesh.Object;
 		BuildingMesh->SetStaticMesh(actualMesh);
 	}
-	BuildingMesh->SetRelativeRotation(FRotator(0, -90, 0));
+	BuildingMesh->SetRelativeRotation(FRotator(0, 0, 0));
 	BuildingWidget->SetRelativeLocation(FVector(0, 200, 200));
 	HealthBarWidget->SetRelativeLocation(FVector(0, 200, 200));
 	FCpp_BuildingResourceVersion* metal = ResourceVersions.Find(AResource_Metal::StaticClass());

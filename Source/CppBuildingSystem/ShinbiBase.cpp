@@ -119,10 +119,15 @@ void AShinbiBase::SightTrace()
 
 void AShinbiBase::OnAttackedCommenced()
 {
+
 }
 
 void AShinbiBase::OnAttackedFinished()
 {
+	if (bLMB_down && State==ECpp_PlayerStates::Combat)
+	{
+		PlayAnimMontage(AttackMontage);
+	}
 }
 
 // Called when the game starts or when spawned
