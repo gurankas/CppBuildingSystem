@@ -18,7 +18,7 @@ ABP_Master_Building::ABP_Master_Building()
 	{
 		BuildingMaterial = MI.Object;
 	}
-	static ConstructorHelpers::FObjectFinder<UStaticMesh> CHMesh(TEXT("/Game/BuildingSystem/Meshes/Floor_v2"));
+	static ConstructorHelpers::FObjectFinder<UStaticMesh> CHMesh(TEXT("/Game/BuildingSystem/Meshes/floor_new"));
 	if (CHMesh.Succeeded())
 	{
 		UStaticMesh* actualMesh = CHMesh.Object;

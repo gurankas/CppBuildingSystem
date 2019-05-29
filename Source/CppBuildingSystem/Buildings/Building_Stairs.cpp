@@ -16,7 +16,7 @@ ABuilding_Stairs::ABuilding_Stairs()
 	{
 		BuildingData.Icon = CHIcon.Object;
 	}
-	static ConstructorHelpers::FObjectFinder<UStaticMesh> CHMesh(TEXT("/Game/BuildingSystem/Meshes/Stairs_Metal_v4"));
+	static ConstructorHelpers::FObjectFinder<UStaticMesh> CHMesh(TEXT("/Game/BuildingSystem/Meshes/Stairs_Concrete_v9"));
 	if (CHMesh.Succeeded())
 	{
 		UStaticMesh* actualMesh = CHMesh.Object;

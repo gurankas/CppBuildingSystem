@@ -14,7 +14,7 @@ ABuilding_Wall::ABuilding_Wall()
 	{
 		BuildingData.Icon = CHIcon.Object;
 	}
-	static ConstructorHelpers::FObjectFinder<UStaticMesh> CHMesh(TEXT("/Game/BuildingSystem/Meshes/Wall_v2"));
+	static ConstructorHelpers::FObjectFinder<UStaticMesh> CHMesh(TEXT("/Game/BuildingSystem/Meshes/Wall_v6"));
 	if (CHMesh.Succeeded())
 	{
 		UStaticMesh* actualMesh = CHMesh.Object;
