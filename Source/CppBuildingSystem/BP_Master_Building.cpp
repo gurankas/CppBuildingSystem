@@ -21,7 +21,7 @@ ABP_Master_Building::ABP_Master_Building()
 	static ConstructorHelpers::FObjectFinder<UStaticMesh> CHMesh(TEXT("/Game/BuildingSystem/Meshes/floor_new"));
 	if (CHMesh.Succeeded())
 	{
-		UStaticMesh* actualMesh = CHMesh.Object;
+		actualMesh = CHMesh.Object;
 		BuildingMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("BuildingMesh"));
 		BuildingMesh->SetStaticMesh(actualMesh);
 		BuildingMesh->SetMaterial(0, BuildingMaterial);
@@ -207,6 +207,24 @@ void ABP_Master_Building::OnOverlappingEnd()
 	bOverlapping = false;
 	BuildingWidget->SetVisibility(true);
 	BuildingMesh->SetVisibility(true);
+}
+
+void ABP_Master_Building::DestroyBuilding()
+{
+	Destroy();
+}
+
+float ABP_Master_Building::TakeDamage(float DamageAmount, FDamageEvent const & DamageEvent, AController * EventInstigator, AActor * DamageCauser)
+{
+	BuildingStatsComponent->ModifyStat(ECpp_Stats::Health, UKismetMathLibrary::Round(DamageAmount*-1));
+	int32 currentValue;
+	FCpp_StatValue stats;
+	BuildingStatsComponent->GetStat(ECpp_Stats::Health, currentValue, stats);
+	if (currentValue <= 0)
+	{
+		DestroyBuilding();
+	}
+	return currentValue-DamageAmount;
 }
 
 // Called when the game starts or when spawned

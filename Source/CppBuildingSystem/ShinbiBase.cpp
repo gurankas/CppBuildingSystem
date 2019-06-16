@@ -6,6 +6,8 @@
 #include "Resource_Metal.h"
 #include "Resource_Stone.h"
 #include "Resource_Wood.h"
+#include "Kismet/KismetSystemLibrary.h"
+#include "Kismet/GameplayStatics.h"
 #include "BPC_BuildingManager.h"
 #include "BP_Master_Building.h"
 
@@ -119,7 +121,28 @@ void AShinbiBase::SightTrace()
 
 void AShinbiBase::OnAttackedCommenced()
 {
-
+	FHitResult HitResult;
+	FVector start = GetActorLocation() + FVector(0, 0, 55);
+	UCameraComponent* PlayerCam = Cast<UCameraComponent>(GetComponentByClass(UCameraComponent::StaticClass()));
+	if (PlayerCam)
+	{
+		FVector end = GetActorLocation() + FVector(0, 0, 55) + (PlayerCam->GetForwardVector()*AttackRange);
+		TArray<AActor*> empty;
+		bool HitOrNot = UKismetSystemLibrary::SphereTraceSingle(GetWorld(), start, end, AttackWidth, ETraceTypeQuery::TraceTypeQuery1, false, empty, EDrawDebugTrace::ForOneFrame, HitResult, true);
+		if (HitOrNot)
+		{
+			ABP_Master_Building* building = Cast<ABP_Master_Building>(HitResult.Actor);
+			if (building)
+			{
+				UStaticMeshComponent* mesh = Cast<UStaticMeshComponent>(HitResult.Component);
+				if (mesh)
+				{
+					UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), HitEffect, HitResult.Location);
+					UGameplayStatics::ApplyDamage(building, AttackDamage, nullptr, this, nullptr);
+				}
+			}
+		}
+	}
 }
 
 void AShinbiBase::OnAttackedFinished()
@@ -246,10 +269,8 @@ void AShinbiBase::OnStartBuildingKeyPressed(FKey key)
 		{
 			BuildingManagerComponent->SelectBuildingByIndex(i);
 			break;
-		}
-		
+		}	
 	}
-	
 }
 
 void AShinbiBase::OnPlaceBuilding()

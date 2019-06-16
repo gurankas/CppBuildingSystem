@@ -6,6 +6,7 @@
 #include "GameFramework/Character.h"
 #include "UI/WBP_Main.h"
 #include "StructsAndEnums.h"
+#include "Camera/CameraComponent.h"
 #include "ShinbiBase.generated.h"
 
 UCLASS()
@@ -68,6 +69,18 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		UAnimMontage* AttackMontage;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		int32 AttackRange = 200;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		int32 AttackWidth = 70;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		float AttackDamage = 90;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		UParticleSystem* HitEffect;
 
 	UFUNCTION(BlueprintCallable)
 	void UpdateStateDisplay();
